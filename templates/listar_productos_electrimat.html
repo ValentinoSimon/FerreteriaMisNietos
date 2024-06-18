@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Productos</title>
+</head>
+<body>
+
+    <h1>{{ precio.proovedor.nombre }}</h1>
+    <h1>Subir excel de ELECTRIMAT</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Subir</button>
+    </form>
+    
+    <h1>Lista de Productos</h1>
+    <table class="tabla" border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Proovedor</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for producto in productos %}
+                {% for precio in producto.precio_set.all %}
+                    {% if precio.proovedor.nombre == 'Electrimat' %}
+                        <tr>
+                            <td>{{ precio.id }}</td>
+                            <td>{{ producto.nombre }}</td>
+                            <td>{{ precio.precio }}</td>
+                            <td>
+                                {{ precio.proovedor.nombre}}
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+<style>
+    body{
+        margin: 0 auto;
+    }
+    .tabla{
+        margin: 0 auto;
+    }
+</style>
+</html>
