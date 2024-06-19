@@ -1,66 +1,49 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Lista de Productos</title>
-</head>
-<body>
+        {% extends "base/base.html" %}
+    {% block content %}
+        <h1>{{precio.proovedor.nombre}} </h1>
+            <h1>Subir excel de SANITARIOS FENIX</h1>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Subir</button>
+            </form>
 
+            <h1 class="title">LISTA DE PRODUCTOS</h1>
+            <table class="tabla" border="1">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Precio</th>
+                        <th>Proovedor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        {% for precio in precios%}
+                            {% if precio.proovedor.nombre == 'Distribuidora Sanitaria Fenix' %}
+                                <tr>
+                                    <td>
+                                    {% if precio.precio %}
+                                            {{ precio.id }}
+                                        {% else %}
+                                        
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ precio.producto.nombre }}</td>
+                                    <td>
+                                        {% if precio.precio %}
+                                            {{ precio.precio }}
+                                        {% else %}
+                                        
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {{ precio.proovedor.nombre}}
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
 
-    <h1>{{precio.proovedor.nombre}} </h1>
-    <h1>Subir excel de SANITARIOS FENIX</h1>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Subir</button>
-    </form>
-    
-
-    <h1>Lista de Productos</h1>
-    <table class="tabla" border="1">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Precio</th>
-                <th>Proovedor</th>
-            </tr>
-        </thead>
-        <tbody>
-                {% for precio in precios%}
-                    {% if precio.proovedor.nombre == 'Distribuidora Sanitaria Fenix' %}
-                        <tr>
-                            <td>
-                            {% if precio.precio %}
-                                    {{ precio.id }}
-                                {% else %}
-                                
-                                {% endif %}
-                            </td>
-                            <td>{{ precio.producto.nombre }}</td>
-                            <td>
-                                {% if precio.precio %}
-                                    {{ precio.precio }}
-                                {% else %}
-                                
-                                {% endif %}
-                            </td>
-                            <td>
-                                {{ precio.proovedor.nombre}}
-                            </td>
-                        </tr>
-                    {% endif %}
-                {% endfor %}
-
-        </tbody>
-    </table>
-</body>
-<style>
-    body{
-        margin: 0 auto;
-    }
-    .tabla{
-        margin: 0 auto;
-    }
-</style>
-</html>
+                </tbody>
+            </table>
+    {% endblock content %}
